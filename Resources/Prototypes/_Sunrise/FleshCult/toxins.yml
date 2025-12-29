@@ -63,7 +63,7 @@
         conditions:
         - !type:TagCondition
           tag: "Flesh"
-        amount: 0.1 # Fish-edit
+        amount: 5
       - !type:SatiateThirst
         conditions:
         - !type:TagCondition
@@ -74,24 +74,22 @@
         - !type:TagCondition
           tag: "Flesh"
         factor: 2.5
-      - !type:EvenHealthChange # Fish-edit
-        conditions:
-        - !type:HasTag
-          tag: "Flesh"
-        damage:
-          Brute: -4
-          Toxin: -4
-          Airloss: -4
       - !type:HealthChange
         conditions:
         - !type:TagCondition
           tag: "Flesh"
         damage:
+          groups:
+            Airloss: -8
           types:
             Heat: -2
-            Cold: -4
             Shock: -4
+            Cold: -4
+            Poison: -4
+            Piercing: -4
+            Blunt: -4
             Caustic: -4
+            Slash: -4
 
 
 

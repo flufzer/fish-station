@@ -285,25 +285,6 @@ public sealed class HungerSystem : EntitySystem
 
             UpdateCurrentThreshold(uid, hunger);
             DoContinuousHungerEffects(uid, hunger);
-
-            // Fish-start: Consume extra hunger to heal mangleness
-            if (TryComp<DamageableComponent>(uid, out var damageable))
-            {
-                if (damageable.Damage.DamageDict.TryGetValue("Mangleness", out var manglenessDamage) && manglenessDamage.Value > 0)
-                {
-                    var currentHunger = GetHunger(hunger);
-                    // Fish-Edit: Consume 0.1 extra points of hunger per tick to heal 0.01 mangleness
-                    var normalizedConsumption = 0.1f * (float)hunger.ThresholdUpdateRate.TotalSeconds;
-                    if (currentHunger > hunger.Thresholds[HungerThreshold.Dead] + normalizedConsumption)
-                    {
-                        ModifyHunger(uid, -normalizedConsumption, hunger);
-                        var healAmount = new DamageSpecifier();
-                        healAmount.DamageDict["Mangleness"] = -0.01f * (float)hunger.ThresholdUpdateRate.TotalSeconds;
-                        _damageable.TryChangeDamage(uid, healAmount, true, false);
-                    }
-                }
-            }
-            // Fish-End
         }
     }
 }
